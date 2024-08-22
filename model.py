@@ -123,11 +123,9 @@ def save_models_and_predictions(classifier, baseline_model, X_train, y_train, X_
   
 def save_predictions_and_probabilities(model, model_name, X_train, y_train, X_validate, y_validate, X_test, y_test):  
     # Save predictions and probabilities for test, train, and validation sets  
-    for dataset, X, y, set_name in zip(  
-        [X_train, X_validate, X_test],  
-        [y_train, y_validate, y_test],  
-        ["train", "validate", "test"]  
-    ):  
+    datasets = [("train", X_train, y_train), ("validate", X_validate, y_validate), ("test", X_test, y_test)]
+    
+    for set_name, X, y in datasets:  
         y_pred = model.predict(X)  
         probabilities = model.predict_proba(X)  
         joblib.dump(y_pred, f"data/{set_name}_data_pred_{model_name}.lib")  

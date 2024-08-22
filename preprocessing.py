@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np  
 import events
 from holidays_es import Province, HolidaySpain  
+import os
+import joblib
   
 def get_events(frequency_data):  
     positive_events = events.get_events(frequency_data=frequency_data, threshold=(frequency_data > 150), max_gap_length=5, event_end=0, event_start=5)  
@@ -226,6 +228,16 @@ def split_data(filtered_data):
     y_train = y_train.astype(float)  
     X_validate = X_validate.astype(float)  
     y_validate = y_validate.astype(float)  
+
+    # Save the split data
+    os.makedirs("data", exist_ok=True)
+    joblib.dump(X_train, "data/train_data.lib")
+    joblib.dump(y_train, "data/train_data_label.lib")
+    joblib.dump(X_validate, "data/validate_data.lib")
+    joblib.dump(y_validate, "data/validate_data_label.lib")
+    joblib.dump(X_test, "data/test_data.lib")
+    joblib.dump(y_test, "data/test_data_label.lib")
+  
   
     return X_train, y_train, X_validate, y_validate, X_test, y_test  
 
